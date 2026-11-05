@@ -56,6 +56,10 @@ typst compile note.typ
 
 `basic-note.typ` and `large-note.typ` take the same parameters: `title`, `title-thanks`, `subtitle`, `authors`, `bib`. Citations appear as footnotes (`chicago-shortened-notes`), and no bibliography list is printed.
 
+## Cross-references
+
+Label a heading and reference it with `@label`: the reference prints the full heading path, e.g. `見@issue` gives 見壹、二、(三). A trailing 、 is dropped, and text in brackets, as in `@issue[本文]`, goes in front of the path.
+
 ## Paths in a submodule
 
 Typst resolves a path against the file that reads it, which here is the template. When the template is a submodule, `bib: "ref.yml"` therefore points to `typst-basic-zh/ref.yml`. Read the file in your own document and pass the contents instead: `bib: read("ref.yml", encoding: none)`.
