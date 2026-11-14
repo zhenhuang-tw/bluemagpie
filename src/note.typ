@@ -1,37 +1,20 @@
-// basic-note.typ
-// 一般筆記入口檔：課堂筆記、讀書摘要、公文草稿、單篇文章。
-// Entry point for ordinary notes: class notes, reading summaries, draft documents, standalone articles.
+// src/note.typ
+// 筆記版面與兩個 show 規則：basic-note、large-note。
+// Note layout and the two show rules: basic-note and large-note.
+//
+//   #show: basic-note.with(title: "標題")
+//   #show: large-note.with(title: "標題")
+//
+// 兩者都已套用 yuhina 的全部排版規則（common-style），不必再另外 show。
+// Both already apply all of yuhina's typesetting rules (common-style); no further show rules are needed.
 
-#import "@local/yuhina:0.1.0": *
-
-// ============================================================
-// § 筆記專用行內樣式函式（論文模板不提供）
-// § Note-only inline style functions (not provided by the paper template)
-// ============================================================
-
-// 非常重點強調 / Strong emphasis
-#let very-keyword(content) = {
-  set text(font: font-hei, weight: "bold")
-  content
-}
-// 教學設例 / Hypothetical cases
-#let hypo(content) = {
-  set text(font: font-yuan, weight: "light") // "light": TaiwanPearl's font weight is on the heavy side
-  content
-}
-// 個人想法 / Personal thoughts
-#let thought(content) = {
-  set text(font: font-fsong)
-  content
-}
-// 右側註解 / Right-side note, e.g. #rightNote[(0218 W1 Session 1)]
-#let rightNote(content) = align(right, text(size: 0.9em, fill: luma(90), content))
+#import "@local/yuhina:0.1.0": common-style, normalize-authors, plain-links, title-block
 
 // ============================================================
 // § 筆記版面（basic-note 與 large-note 共用，請勿直接呼叫）
 // § Note layout (shared by basic-note and large-note; do not call directly)
 // ============================================================
-#let _note-project(
+#let _note(
   large: false,
   title: "",
   title-thanks: none,
@@ -55,11 +38,7 @@
   body
 
   // 隨頁註引用：載入參考文獻以解析引用鍵，但隱藏文末清單。
-  // 傳入字串時，路徑以「本檔所在目錄」為準；若模板位於 submodule，
-  // 請改傳 read("ref.yml", encoding: none) 讀出的 bytes。
   // Footnote citations: load the bibliography to resolve keys, but hide the list at the end.
-  // A string is a path relative to THIS file's directory; when the template lives in a
-  // submodule, pass bytes from read("ref.yml", encoding: none) instead.
   if bib != none {
     show bibliography: it => {}
     bibliography(bib, style: "chicago-shortened-notes")
@@ -67,10 +46,10 @@
 }
 
 // ============================================================
-// § 主模板函式
-// § Main template function
+// § 一般筆記：課堂筆記、讀書摘要、公文草稿、單篇文章
+// § Ordinary notes: class notes, reading summaries, draft documents, standalone articles
 // ============================================================
-#let project(
+#let basic-note(
   title: "", // 標題必填 / Title (required)
   title-thanks: none, // 標題註解 / Title note
   subtitle: none, // 副標題 / Subtitle
@@ -79,8 +58,29 @@
   authors: (),
   bib: none, // 參考文獻（路徑或 bytes，選填）/ Bibliography (path or bytes, optional)
   body,
-) = _note-project(
+) = _note(
   large: false,
+  title: title,
+  title-thanks: title-thanks,
+  subtitle: subtitle,
+  authors: authors,
+  bib: bib,
+  body,
+)
+
+// ============================================================
+// § 大型筆記：在「壹、」之上多一層「第一章」，且每章另起新頁
+// § Large notes: adds a "Chapter N" level above "壹、" and starts each chapter on a new page
+// ============================================================
+#let large-note(
+  title: "", // 標題必填 / Title (required)
+  title-thanks: none, // 標題註解 / Title note
+  subtitle: none, // 副標題 / Subtitle
+  authors: (), // 作者 / Authors
+  bib: none, // 參考文獻（路徑或 bytes，選填）/ Bibliography (path or bytes, optional)
+  body,
+) = _note(
+  large: true,
   title: title,
   title-thanks: title-thanks,
   subtitle: subtitle,
