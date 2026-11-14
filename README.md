@@ -34,31 +34,9 @@ git submodule add https://github.com/zhenhuang-tw/typst-basic-zh.git typst-basic
 
 Alternatively, copy `common.typ` together with the entry point you need. Both entry points depend on `common.typ`, and `large-note.typ` also depends on `basic-note.typ`.
 
-## Quick start
+## Usage
 
-```typ
-#import "typst-basic-zh/basic-note.typ": *   // or large-note.typ
-
-#show: project.with(
-  title: "民法債編總論筆記",
-  authors: "授課老師：何孝元教授",
-  bib: read("ref.yml", encoding: none),      // optional
-)
-
-= 前言
-
-Use #keyword[emphasis] or #hypo[a hypothetical case] inline.
-```
-
-```powershell
-typst compile note.typ
-```
-
-`basic-note.typ` and `large-note.typ` take the same parameters: `title`, `title-thanks`, `subtitle`, `authors`, `bib`. Citations appear as footnotes (`chicago-shortened-notes`), and no bibliography list is printed.
-
-## Cross-references
-
-Label a heading and reference it with `@label`: the reference prints the full heading path, e.g. `見@issue` gives 見壹、二、(三). A trailing 、 is dropped, and text in brackets, as in `@issue[本文]`, goes in front of the path.
+See [README-zh.md](README-zh.md).
 
 ## Paths in a submodule
 
