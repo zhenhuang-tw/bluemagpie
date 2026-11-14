@@ -23,6 +23,13 @@
   bib: none,
   body,
 ) = {
+  // 套件內的路徑以套件目錄為準，指不到使用者的檔案，所以只接受 bytes。
+  // Paths resolve against the package directory and cannot reach the user's files, so only bytes are accepted.
+  assert(
+    type(bib) != str,
+    message: "bib 不接受路徑字串（路徑會以套件目錄解析）。請改傳 bytes：bib: read(\"ref.yml\", encoding: none)",
+  )
+
   show: common-style.with(title: title, authors: authors, large: large)
 
   title-block(title, title-thanks: title-thanks, subtitle: subtitle, authors: normalize-authors(authors))
@@ -56,7 +63,7 @@
   // 每位作者為字串或 dict：(name: "姓名", thanks: "職銜或說明")
   // Each author is a string or a dict: (name: "Name", thanks: "Affiliation or note")
   authors: (),
-  bib: none, // 參考文獻（路徑或 bytes，選填）/ Bibliography (path or bytes, optional)
+  bib: none, // 參考文獻（bytes，選填）/ Bibliography (bytes, optional)
   body,
 ) = _note(
   large: false,
@@ -77,7 +84,7 @@
   title-thanks: none, // 標題註解 / Title note
   subtitle: none, // 副標題 / Subtitle
   authors: (), // 作者 / Authors
-  bib: none, // 參考文獻（路徑或 bytes，選填）/ Bibliography (path or bytes, optional)
+  bib: none, // 參考文獻（bytes，選填）/ Bibliography (bytes, optional)
   body,
 ) = _note(
   large: true,
