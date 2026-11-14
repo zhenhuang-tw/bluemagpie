@@ -1,4 +1,4 @@
-# typst-basic-zh
+# bluemagpie
 
 適用於 [Typst](https://typst.app/) 的繁體中文筆記模板，提供兩個入口檔：
 
@@ -10,6 +10,8 @@
 兩者共用 [yuhina](https://github.com/zhenhuang-tw/yuhina) 套件中的字體、行內樣式、註腳與標題編號。yuhina 尚未上架 Typst Universe，須先安裝為本機套件，見〈環境需求〉。
 
 投稿用學術論文（中英封面、摘要、citrus 引註、分類參考文獻）的模板已獨立為 [typst-ntulj](https://github.com/zhenhuang-tw/typst-ntulj)。該模板以 submodule 引入本專案，並將改為同樣匯入 yuhina，因此兩者外觀一致。
+
+本專案的名稱 `bluemagpie` 得名於臺灣特有種臺灣藍鵲（Taiwan blue magpie）。
 
 ## 環境需求
 
@@ -38,10 +40,10 @@
 在你的專案根目錄執行：
 
 ```powershell
-git submodule add https://github.com/zhenhuang-tw/typst-basic-zh.git typst-basic-zh
+git submodule add https://github.com/zhenhuang-tw/bluemagpie.git bluemagpie
 ```
 
-之後以 `#import "typst-basic-zh/basic-note.typ": *` 匯入。以下範例皆假設模板位於 `typst-basic-zh/` 資料夾。
+之後以 `#import "bluemagpie/basic-note.typ": *` 匯入。以下範例皆假設模板位於 `bluemagpie/` 資料夾。
 
 ### 方式二：直接複製
 
@@ -52,7 +54,7 @@ git submodule add https://github.com/zhenhuang-tw/typst-basic-zh.git typst-basic
 ### 一般筆記（`basic-note.typ`）
 
 ```typ
-#import "typst-basic-zh/basic-note.typ": *
+#import "bluemagpie/basic-note.typ": *
 
 #show: project.with(
   title: "民法債編總論筆記",
@@ -75,7 +77,7 @@ typst watch note.typ       # 監看檔案，存檔即重新編譯
 參數與 `basic-note.typ` 完全相同，只差在標題多一層「章」：
 
 ```typ
-#import "typst-basic-zh/large-note.typ": *
+#import "bluemagpie/large-note.typ": *
 
 #show: project.with(title: "全學年刑法總則筆記")
 
@@ -128,7 +130,7 @@ bib: read("ref.yml", encoding: none),
 bib: "ref.yml",
 ```
 
-傳入字串時，Typst 會以**模板檔所在資料夾**解析路徑；在 submodule 架構下會指向 `typst-basic-zh/ref.yml`，因此請改傳 bytes。
+傳入字串時，Typst 會以**模板檔所在資料夾**解析路徑；在 submodule 架構下會指向 `bluemagpie/ref.yml`，因此請改傳 bytes。
 
 ## 行內樣式函式
 
@@ -196,6 +198,24 @@ A4，左右邊距 3cm、上下 2.5cm，頁碼置中；內文新細明體 12pt，
 
 ## 從舊版遷移
 
+### 原本使用 `typst-basic-zh` 的專案
+
+本專案已由 `typst-basic-zh` 更名為 `bluemagpie`，共用定義也改由 yuhina 提供，`common.typ` 已移除。請依序處理：
+
+1. 依〈環境需求〉安裝 yuhina。
+2. 在你的專案根目錄更名 submodule。GitHub 會將舊網址轉址，但仍建議更新網址：
+
+   ```powershell
+   git mv typst-basic-zh bluemagpie
+   git submodule set-url bluemagpie https://github.com/zhenhuang-tw/bluemagpie.git
+   git submodule sync bluemagpie
+   git add .gitmodules
+   git commit -m "chore(tpl): rename typst-basic-zh submodule to bluemagpie"
+   ```
+
+3. 將 `#import "typst-basic-zh/basic-note.typ": *` 改為 `#import "bluemagpie/basic-note.typ": *`，`large-note.typ` 同。
+4. 若有文件或模板直接匯入 `typst-basic-zh/common.typ`（例如舊版 typst-ntulj），改為 `#import "@local/yuhina:0.1.0": *`。
+
 ### 原本匯入 `basic-zh.typ`
 
 `basic-zh.typ` 已移除，更新 submodule 後舊文件會無法編譯。請改為：
@@ -214,16 +234,16 @@ git submodule add https://github.com/zhenhuang-tw/typst-ntulj.git typst-ntulj
 git submodule update --init --recursive
 ```
 
-再把 `#import "typst-basic-zh/academic-paper.typ": *` 改為 `#import "typst-ntulj/ntulj.typ": *`。`project`、`ncite`、`ncitef` 的參數都不變。若該專案只用來寫論文，可以接著移除 `typst-basic-zh` submodule。
+再把 `#import "typst-basic-zh/academic-paper.typ": *` 改為 `#import "typst-ntulj/ntulj.typ": *`。`project`、`ncite`、`ncitef` 的參數都不變。若該專案只用來寫論文，可以接著移除本模板的 submodule。
 
 ## 更新 submodule
 
 在你的專案根目錄執行：
 
 ```powershell
-git submodule update --remote --merge typst-basic-zh
-git add typst-basic-zh
-git commit -m "chore(tpl): update typst-basic-zh submodule"
+git submodule update --remote --merge bluemagpie
+git add bluemagpie
+git commit -m "chore(tpl): update bluemagpie submodule"
 ```
 
 主專案只記錄 submodule 指向的 commit，所以更新後必須把 submodule 資料夾 `git add` 並提交，其他電腦 clone 時才會取得新版。其他電腦拉取主專案後，執行 `git submodule update --init` 即可同步。
