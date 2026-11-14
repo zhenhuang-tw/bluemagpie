@@ -2,7 +2,7 @@
 // 大型筆記入口檔：在「壹、」之上多一層「第一章」，且每章另起新頁。
 // Entry point for large notes: adds a "Chapter N" level above "壹、" and starts each chapter on a new page.
 
-#import "common.typ": *
+#import "@local/yuhina:0.1.0": *
 #import "basic-note.typ": _note-project, hypo, rightNote, thought, very-keyword
 
 #let project(

@@ -2,7 +2,7 @@
 // 一般筆記入口檔：課堂筆記、讀書摘要、公文草稿、單篇文章。
 // Entry point for ordinary notes: class notes, reading summaries, draft documents, standalone articles.
 
-#import "common.typ": *
+#import "@local/yuhina:0.1.0": *
 
 // ============================================================
 // § 筆記專用行內樣式函式（論文模板不提供）
