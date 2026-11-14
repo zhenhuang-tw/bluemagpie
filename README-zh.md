@@ -134,14 +134,14 @@ authors: (
 
 以 `#import "@local/bluemagpie:0.1.0": *` 匯入時，會一併取得下列函式：
 
-| 函式           | 用途                   | 範例                           |
-| -------------- | ---------------------- | ------------------------------ |
-| `keyword`      | 重點強調（原字體加粗） | `#keyword[重要]`               |
-| `very-keyword` | 非常重要（黑體粗體）   | `#very-keyword[極重要]`        |
-| `hypo`         | 教學設例（圓體）       | `#hypo[假設小明……]`            |
-| `thought`      | 個人想法（仿宋）       | `#thought[我認為……]`           |
-| `inquote`      | 行內引用（楷體）       | `#inquote[被引用之文字]`       |
-| `rightNote`    | 靠右的灰色小字註解     | `#rightNote[（0218 W1 節一）]` |
+| 函式           | 用途                   | 範例                            |
+| -------------- | ---------------------- | ------------------------------- |
+| `keyword`      | 重點強調（原字體加粗） | `#keyword[重要]`                |
+| `very-keyword` | 非常重要（黑體粗體）   | `#very-keyword[極重要]`         |
+| `hypo`         | 教學設例（圓體）       | `#hypo[假設小明……]`             |
+| `thought`      | 個人想法（仿宋）       | `#thought[我認為……]`            |
+| `inquote`      | 行內引用（楷體）       | `#inquote[被引用之文字]`        |
+| `right-note`   | 靠右的灰色小字註解     | `#right-note[（0218 W1 節一）]` |
 
 ## 編號規則
 
@@ -213,6 +213,7 @@ A4，左右邊距 3cm、上下 2.5cm，頁碼置中；內文新細明體 12pt，
    | -------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
    | `#import "…/basic-note.typ": *`<br>`#show: project.with(…)`                      | `#import "@local/bluemagpie:0.1.0": *`<br>`#show: basic-note.with(…)` |
    | `#import "…/large-note.typ": *`<br>`#show: project.with(…)`                      | `#import "@local/bluemagpie:0.1.0": *`<br>`#show: large-note.with(…)` |
+   | `#rightNote[…]`                                                                  | `#right-note[…]`                                                      |
    | `bib: "ref.yml"`                                                                 | `bib: read("ref.yml", encoding: none)`                                |
    | 直接匯入 `…/common.typ`（例如舊版 typst-ntulj）                                  | `#import "@local/yuhina:0.1.0": *`                                    |
    | `…/academic-paper.typ`（論文模板）                                               | 改用 [typst-ntulj](https://github.com/zhenhuang-tw/typst-ntulj)，見其 README |

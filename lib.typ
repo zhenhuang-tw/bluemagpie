@@ -17,7 +17,7 @@
 #import "src/note.typ": basic-note, large-note
 
 // 筆記專用行內樣式 / Note-only inline styles
-#import "src/inline.typ": hypo, rightNote, thought, very-keyword
+#import "src/inline.typ": hypo, right-note, thought, very-keyword
 
 // yuhina 的通用行內樣式與字型，轉出以便文件只匯入本套件即可使用
 // General inline styles and fonts from yuhina, re-exported so documents need to import only this package

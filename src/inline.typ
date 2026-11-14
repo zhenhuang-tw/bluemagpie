@@ -19,5 +19,5 @@
   set text(font: font-fsong)
   content
 }
-// 右側註解 / Right-side note, e.g. #rightNote[(0218 W1 Session 1)]
-#let rightNote(content) = align(right, text(size: 0.9em, fill: luma(90), content))
+// 右側註解 / Right-side note, e.g. #right-note[(0218 W1 Session 1)]
+#let right-note(content) = align(right, text(size: 0.9em, fill: luma(90), content))
