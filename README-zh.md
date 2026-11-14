@@ -11,7 +11,7 @@
 
 投稿用學術論文（中英封面、摘要、citrus 引註、分類參考文獻）的模板已獨立為 [typst-ntulj](https://github.com/zhenhuang-tw/typst-ntulj)。該模板以 submodule 引入本專案，並將改為同樣匯入 yuhina，因此兩者外觀一致。
 
-本專案的名稱 `bluemagpie` 得名於臺灣特有種臺灣藍鵲（Taiwan blue magpie）。
+本專案的名稱 `bluemagpie` 得名於臺灣藍鵲（Taiwan blue magpie）。
 
 ## 環境需求
 
@@ -35,9 +35,7 @@
 
 ## 安裝
 
-### 方式一：Git submodule（建議）
-
-在你的專案根目錄執行：
+建議安裝為 Git submodule 。在你的專案根目錄執行：
 
 ```powershell
 git submodule add https://github.com/zhenhuang-tw/bluemagpie.git bluemagpie
@@ -45,9 +43,7 @@ git submodule add https://github.com/zhenhuang-tw/bluemagpie.git bluemagpie
 
 之後以 `#import "bluemagpie/basic-note.typ": *` 匯入。以下範例皆假設模板位於 `bluemagpie/` 資料夾。
 
-### 方式二：直接複製
-
-將你要用的入口檔複製到專案中。`large-note.typ` 另依賴 `basic-note.typ`，缺一無法編譯。兩種方式都須先依〈環境需求〉安裝 yuhina。
+若不安裝為子模組，亦可將你要用的入口檔複製到專案中。`large-note.typ` 另依賴 `basic-note.typ`，缺一無法編譯。兩種方式都須先依〈環境需求〉安裝 yuhina。
 
 ## 快速開始
 
@@ -178,7 +174,6 @@ bib: "ref.yml",
 路徑結尾的「、」會省略，方便直接接續文字或標點；方括號內的文字會放在路徑前面。參照可以指向後文的標題，也可以寫在腳註裡。中文字後直接接 `@` 即可，不必空格。
 
 要參照頁碼，請寫 `#ref(<issue>, form: "page")`，輸出「頁 5」；這種寫法不受上述路徑格式影響。
-
 
 ```typ
 + 第一項        // 1.
