@@ -1,30 +1,22 @@
 # bluemagpie
 
-適用於 [Typst](https://typst.app/) 的繁體中文筆記模板，提供兩個入口檔：
+適用於 [Typst](https://typst.app/) 的繁體中文筆記套件。只要選擇其中一個 show 規則，就會套用全部的筆記樣式（版面、字型、註腳、標題編號、目錄等）：
 
-| 入口檔           | 用途                                         | 引註方式                   |
-| ---------------- | -------------------------------------------- | -------------------------- |
-| `basic-note.typ` | 課堂筆記、讀書摘要、公文草稿、單篇文章       | 選用；Typst 原生，僅隨頁註 |
-| `large-note.typ` | 整學年筆記、長篇報告：在「壹、」之上分「章」 | 同上                       |
+| show 規則    | 用途                                         | 引註方式                   |
+| ------------ | -------------------------------------------- | -------------------------- |
+| `basic-note` | 課堂筆記、讀書摘要、公文草稿、單篇文章       | 選用；Typst 原生，僅隨頁註 |
+| `large-note` | 整學年筆記、長篇報告：在「壹、」之上分「章」 | 同上                       |
 
-兩者共用 [yuhina](https://github.com/zhenhuang-tw/yuhina) 套件中的字體、行內樣式、註腳與標題編號。yuhina 尚未上架 Typst Universe，須先安裝為本機套件，見〈環境需求〉。
+兩者共用 [yuhina](https://github.com/zhenhuang-tw/yuhina) 套件中的字體、行內樣式、註腳與標題編號。本套件與 yuhina 都尚未上架 Typst Universe，須各自安裝為本機套件（local package），見〈安裝〉。
 
-投稿用學術論文（中英封面、摘要、citrus 引註、分類參考文獻）的模板已獨立為 [typst-ntulj](https://github.com/zhenhuang-tw/typst-ntulj)。該模板以 submodule 引入本專案，並將改為同樣匯入 yuhina，因此兩者外觀一致。
+投稿用學術論文（中英封面、摘要、citrus 引註、分類參考文獻）的模板已獨立為 [typst-ntulj](https://github.com/zhenhuang-tw/typst-ntulj)。該模板與本套件共用 yuhina（遷移中），因此兩者外觀一致。
 
-本專案的名稱 `bluemagpie` 得名於臺灣藍鵲（Taiwan blue magpie）。
+本套件的名稱 `bluemagpie` 得名於臺灣藍鵲（Taiwan blue magpie）。
 
 ## 環境需求
 
 1. [Typst](https://github.com/typst/typst#installation) 0.14 以上。
-2. [yuhina](https://github.com/zhenhuang-tw/yuhina)，須安裝為本機套件（`@local/yuhina:0.1.0`）。未安裝時，編譯會出現 `package not found (searched for @local/yuhina:0.1.0)`。clone yuhina 後，在其根目錄執行（細節見其 [README-zh.md](https://github.com/zhenhuang-tw/yuhina/blob/main/README-zh.md)）：
-
-   ```powershell
-   $pkg = "$env:APPDATA\typst\packages\local\yuhina\0.1.0"
-   New-Item -ItemType Directory -Force (Split-Path $pkg) | Out-Null
-   New-Item -ItemType Junction -Path $pkg -Target (Resolve-Path .)
-   ```
-
-3. 建議安裝下列字型。缺少時 Typst 會以其他字型替補，但外觀會不同：
+2. 建議安裝下列字型。缺少時 Typst 會以其他字型替補，但外觀會不同：
    - Times New Roman、Arial
    - 微軟正黑體（`Microsoft JhengHei UI`）
    - 新細明體（`PMingLiU`）、標楷體（`DFKai-SB`）
@@ -35,24 +27,35 @@
 
 ## 安裝
 
-建議安裝為 Git submodule 。在你的專案根目錄執行：
+Typst 會在 `%APPDATA%\typst\packages\local\<名稱>\<版本>` 尋找本機套件。clone 本 repo 與 yuhina 後，為兩者各建立一個指向 clone 的目錄連結（junction）；之後 clone 內容變動，不必重新複製。建立 junction 不需要系統管理員權限。
 
 ```powershell
-git submodule add https://github.com/zhenhuang-tw/bluemagpie.git bluemagpie
+git clone https://github.com/zhenhuang-tw/yuhina.git
+git clone https://github.com/zhenhuang-tw/bluemagpie.git
+
+foreach ($name in "yuhina", "bluemagpie") {
+  $pkg = "$env:APPDATA\typst\packages\local\$name\0.1.0"
+  New-Item -ItemType Directory -Force (Split-Path $pkg) | Out-Null
+  New-Item -ItemType Junction -Path $pkg -Target (Resolve-Path $name)
+}
 ```
 
-之後以 `#import "bluemagpie/basic-note.typ": *` 匯入。以下範例皆假設模板位於 `bluemagpie/` 資料夾。
+資料夾名稱中的 `0.1.0` 須與各 repo 的 `typst.toml` 中的 `version` 一致。未安裝時，編譯會出現 `package not found (searched for @local/bluemagpie:0.1.0)`；少了 yuhina 則是 `@local/yuhina:0.1.0`。
 
-若不安裝為子模組，亦可將你要用的入口檔複製到專案中。`large-note.typ` 另依賴 `basic-note.typ`，缺一無法編譯。兩種方式都須先依〈環境需求〉安裝 yuhina。
+### 更新
+
+在兩個 clone 內各執行 `git pull`。junction 指向 clone 本身，所有文件下次編譯就會用到新版。
+
+若 `typst.toml` 的 `version` 提高（例如 0.2.0），再依上述方式建立新版本的 junction，並把文件中的 `@local/bluemagpie:0.1.0` 改為新版本。
 
 ## 快速開始
 
-### 一般筆記（`basic-note.typ`）
+### 一般筆記（`basic-note`）
 
 ```typ
-#import "bluemagpie/basic-note.typ": *
+#import "@local/bluemagpie:0.1.0": *
 
-#show: project.with(
+#show: basic-note.with(
   title: "民法債編總論筆記",
   authors: "授課老師：何孝元教授",
 )
@@ -68,14 +71,16 @@ typst compile note.typ     # 產生 note.pdf
 typst watch note.typ       # 監看檔案，存檔即重新編譯
 ```
 
-### 大型筆記（`large-note.typ`）
+`basic-note` 已套用全部排版規則，不必再寫其他 `#show`。以 `*` 匯入會一併取得兩個 show 規則、行內樣式函式與字型；也可以只匯入需要的名稱，例如 `#import "@local/bluemagpie:0.1.0": basic-note, hypo`。
 
-參數與 `basic-note.typ` 完全相同，只差在標題多一層「章」：
+### 大型筆記（`large-note`）
+
+參數與 `basic-note` 完全相同，只差在標題多一層「章」：
 
 ```typ
-#import "bluemagpie/large-note.typ": *
+#import "@local/bluemagpie:0.1.0": *
 
-#show: project.with(title: "全學年刑法總則筆記")
+#show: large-note.with(title: "全學年刑法總則筆記")
 
 = 導論          // 第一章 導論（另起新頁）
 == 問題意識     // 壹、問題意識
@@ -84,17 +89,15 @@ typst watch note.typ       # 監看檔案，存檔即重新編譯
 
 ## 參數說明
 
-兩個入口檔的主函式都叫 `project`，參數相同，以 `#show: project.with(...)` 套用。
+兩個 show 規則的參數相同，以 `#show: basic-note.with(...)` 或 `#show: large-note.with(...)` 套用。
 
-### `basic-note.typ`、`large-note.typ`
-
-| 參數           | 型別                | 預設值 | 說明                                                 |
-| -------------- | ------------------- | ------ | ---------------------------------------------------- |
-| `title`        | 字串                | `""`   | **必填**。主標題。                                   |
-| `title-thanks` | 內容／`none`        | `none` | 標題的註解，例如「本文為某計畫成果」，以腳註呈現。   |
-| `subtitle`     | 內容／`none`        | `none` | 副標題。                                             |
-| `authors`      | 字串／字典／陣列    | `()`   | 作者，寫法見下節。                                   |
-| `bib`          | 字串／bytes／`none` | `none` | 參考文獻（`.yml` 或 `.bib`）。不傳則不載入，見下節。 |
+| 參數           | 型別             | 預設值 | 說明                                                 |
+| -------------- | ---------------- | ------ | ---------------------------------------------------- |
+| `title`        | 字串             | `""`   | **必填**。主標題。                                   |
+| `title-thanks` | 內容／`none`     | `none` | 標題的註解，例如「本文為某計畫成果」，以腳註呈現。   |
+| `subtitle`     | 內容／`none`     | `none` | 副標題。                                             |
+| `authors`      | 字串／字典／陣列 | `()`   | 作者，寫法見下節。                                   |
+| `bib`          | bytes／`none`    | `none` | 參考文獻（`.yml` 或 `.bib`）。不傳則不載入，見下節。 |
 
 ### 作者（`authors`）
 
@@ -114,23 +117,22 @@ authors: (
 
 ### 筆記的參考文獻（`bib`）
 
-筆記模板的引用一律以**腳註**呈現（`chicago-shortened-notes`），文末**不**輸出參考文獻清單。若不需要參考文獻，省略 `bib` 即可。
+筆記的引用一律以**腳註**呈現（`chicago-shortened-notes`），文末**不**輸出參考文獻清單。若不需要參考文獻，省略 `bib` 即可。
 
-傳入方式依模板位置而定：
+`bib` 只接受 bytes，請由你的文件讀檔後傳入：
 
 ```typ
-// 模板放在 submodule（建議）：由你的文件讀檔，傳入 bytes
-bib: read("ref.yml", encoding: none),
-
-// 模板與文件在同一資料夾：也可以直接傳路徑
-bib: "ref.yml",
+#show: basic-note.with(
+  title: "筆記",
+  bib: read("ref.yml", encoding: none),   // 或 ref.bib
+)
 ```
 
-傳入字串時，Typst 會以**模板檔所在資料夾**解析路徑；在 submodule 架構下會指向 `bluemagpie/ref.yml`，因此請改傳 bytes。
+不可直接傳路徑字串（如 `bib: "ref.yml"`）：Typst 會以**套件所在資料夾**解析路徑，指不到你的檔案，所以會直接報錯。
 
 ## 行內樣式函式
 
-兩個入口檔都會一併匯出下列函式：
+以 `#import "@local/bluemagpie:0.1.0": *` 匯入時，會一併取得下列函式：
 
 | 函式           | 用途                   | 範例                           |
 | -------------- | ---------------------- | ------------------------------ |
@@ -187,58 +189,32 @@ bib: "ref.yml",
 
 A4，左右邊距 3cm、上下 2.5cm，頁碼置中；內文新細明體 12pt，段落不縮排，行距 1.1em；腳註文內標籤為黑體上標，頁底採懸掛縮排；圖說置於圖片上方。首頁為標題、作者，其下接目錄；文末不輸出參考文獻清單。
 
-## 衍生模板：可個別套用的排版規則
+## 衍生模板
 
-撰寫衍生模板時若要只挑部分排版規則（頁面、段落、註腳、標題編號等），或傳入不同參數，請直接匯入 yuhina：`#import "@local/yuhina:0.1.0": *`。各函式的名稱、參數與範例見 [yuhina 的 README-zh.md](https://github.com/zhenhuang-tw/yuhina/blob/main/README-zh.md)。本專案的入口檔只是以 `common-style` 將這些規則全部套用。
+要自行撰寫模板，或只挑部分排版規則（頁面、段落、註腳、標題編號等）、傳入不同參數，請直接匯入 yuhina：`#import "@local/yuhina:0.1.0": *`。各函式的名稱、參數與範例見 [yuhina 的 README-zh.md](https://github.com/zhenhuang-tw/yuhina/blob/main/README-zh.md)。`basic-note` 與 `large-note` 只是以 yuhina 的 `common-style` 將這些規則全部套用，再加上標題、目錄與參考文獻。
 
 ## 從舊版遷移
 
-### 原本使用 `typst-basic-zh` 的專案
+原本以 Git submodule 使用本專案（舊名 `typst-basic-zh`）的專案，請依序處理：
 
-本專案已由 `typst-basic-zh` 更名為 `bluemagpie`，共用定義也改由 yuhina 提供，`common.typ` 已移除。請依序處理：
-
-1. 依〈環境需求〉安裝 yuhina。
-2. 在你的專案根目錄更名 submodule。GitHub 會將舊網址轉址，但仍建議更新網址：
+1. 依〈安裝〉安裝本套件與 yuhina。
+2. 在專案根目錄移除 submodule。先用 `ls .git\modules` 確認其名稱；以舊版更名而來的，名稱可能仍是 `typst-basic-zh`。最後一行是清理，可省略：
 
    ```powershell
-   git mv typst-basic-zh bluemagpie
-   git submodule set-url bluemagpie https://github.com/zhenhuang-tw/bluemagpie.git
-   git submodule sync bluemagpie
-   git add .gitmodules
-   git commit -m "chore(tpl): rename typst-basic-zh submodule to bluemagpie"
+   git submodule deinit -f bluemagpie     # 舊路徑則為 typst-basic-zh
+   git rm -f bluemagpie
+   git commit -m "chore(tpl): replace bluemagpie submodule with local package"
+   Remove-Item -Recurse -Force .git\modules\<名稱>
    ```
 
-3. 將 `#import "typst-basic-zh/basic-note.typ": *` 改為 `#import "bluemagpie/basic-note.typ": *`，`large-note.typ` 同。
-4. 若有文件或模板直接匯入 `typst-basic-zh/common.typ`（例如舊版 typst-ntulj），改為 `#import "@local/yuhina:0.1.0": *`。
+3. 修改文件中的匯入與 show 規則：
 
-### 原本匯入 `basic-zh.typ`
+   | 原本                                                                             | 改為                                                                  |
+   | -------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+   | `#import "…/basic-note.typ": *`<br>`#show: project.with(…)`                      | `#import "@local/bluemagpie:0.1.0": *`<br>`#show: basic-note.with(…)` |
+   | `#import "…/large-note.typ": *`<br>`#show: project.with(…)`                      | `#import "@local/bluemagpie:0.1.0": *`<br>`#show: large-note.with(…)` |
+   | `bib: "ref.yml"`                                                                 | `bib: read("ref.yml", encoding: none)`                                |
+   | 直接匯入 `…/common.typ`（例如舊版 typst-ntulj）                                  | `#import "@local/yuhina:0.1.0": *`                                    |
+   | `…/academic-paper.typ`（論文模板）                                               | 改用 [typst-ntulj](https://github.com/zhenhuang-tw/typst-ntulj)，見其 README |
 
-`basic-zh.typ` 已移除，更新 submodule 後舊文件會無法編譯。請改為：
-
-| 原本                              | 改為                                        |
-| --------------------------------- | ------------------------------------------- |
-| `#import "basic-zh.typ": *`       | `#import "basic-note.typ": *`               |
-| 加上 `isLargeReport: true` 的文件 | `#import "large-note.typ": *`，並刪除該參數 |
-
-### 原本匯入 `academic-paper.typ`
-
-`academic-paper.typ` 已移至 [typst-ntulj](https://github.com/zhenhuang-tw/typst-ntulj)，更新本 submodule 後，匯入它的文件會無法編譯。請在論文專案根目錄執行：
-
-```powershell
-git submodule add https://github.com/zhenhuang-tw/typst-ntulj.git typst-ntulj
-git submodule update --init --recursive
-```
-
-再把 `#import "typst-basic-zh/academic-paper.typ": *` 改為 `#import "typst-ntulj/ntulj.typ": *`。`project`、`ncite`、`ncitef` 的參數都不變。若該專案只用來寫論文，可以接著移除本模板的 submodule。
-
-## 更新 submodule
-
-在你的專案根目錄執行：
-
-```powershell
-git submodule update --remote --merge bluemagpie
-git add bluemagpie
-git commit -m "chore(tpl): update bluemagpie submodule"
-```
-
-主專案只記錄 submodule 指向的 commit，所以更新後必須把 submodule 資料夾 `git add` 並提交，其他電腦 clone 時才會取得新版。其他電腦拉取主專案後，執行 `git submodule update --init` 即可同步。
+   更舊的 `basic-zh.typ` 比照前兩列處理；原本設有 `isLargeReport: true` 者改用 `large-note`，並刪除該參數。

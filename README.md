@@ -1,42 +1,32 @@
 # bluemagpie
 
-Traditional Chinese note templates for [Typst](https://typst.app/). The name `bluemagpie` comes from the Taiwan blue magpie (_Urocissa caerulea_), a species endemic to Taiwan.
+Traditional Chinese note package for [Typst](https://typst.app/). The name `bluemagpie` comes from the Taiwan blue magpie (_Urocissa caerulea_), a species endemic to Taiwan.
+
+It provides two show rules. Pick one and it applies every note style, with no other `#show` needed:
+
+```typ
+#import "@local/bluemagpie:0.1.0": *
+
+#show: basic-note.with(title: "Notes", authors: "Author") // ordinary notes
+#show: large-note.with(title: "Notes", authors: "Author") // long notes with a chapter level above 壹、
+```
 
 Both share fonts, inline styles, footnotes, and heading numbering from the [yuhina](https://github.com/zhenhuang-tw/yuhina) package.
 
-> Yuhina is not on Typst Universe yet, so it must be installed as a local package; see Requirements.
+> Neither bluemagpie nor yuhina is on Typst Universe yet, so both must be installed as local packages; see Installation in the Chinese README.
 
-The template for journal papers (bilingual cover, abstracts, citrus citations, grouped bibliography) now lives in [typst-ntulj](https://github.com/zhenhuang-tw/typst-ntulj). It includes this repository as a submodule and is moving to yuhina as well, so both look the same.
+The template for journal papers (bilingual cover, abstracts, citrus citations, grouped bibliography) lives in [typst-ntulj](https://github.com/zhenhuang-tw/typst-ntulj), which is moving to yuhina as well, so both look the same.
 
 ## Requirements, Installation & Usage
 
 The Chinese README, [README-zh.md](README-zh.md), is the full manual.
 
-## Paths in a submodule
-
-Typst resolves a path against the file that reads it, which here is the template. When the template is a submodule, `bib: "ref.yml"` therefore points to `bluemagpie/ref.yml`. Read the file in your own document and pass the contents instead: `bib: read("ref.yml", encoding: none)`.
-
 ## Migrating
 
-- This project was renamed from `typst-basic-zh` to `bluemagpie`, and `common.typ` was replaced by the yuhina package. Install yuhina (see Requirements), then in your project root:
+This package replaces the Git submodule setup of earlier versions (`typst-basic-zh`, then `bluemagpie`). The steps are in the Chinese README. In short:
 
-  ```powershell
-  git mv typst-basic-zh bluemagpie
-  git submodule set-url bluemagpie https://github.com/zhenhuang-tw/bluemagpie.git
-  git submodule sync bluemagpie
-  git add .gitmodules
-  git commit -m "chore(tpl): rename typst-basic-zh submodule to bluemagpie"
-  ```
-
-  Change `typst-basic-zh/...` imports to `bluemagpie/...`, and replace any direct import of `common.typ` with `@local/yuhina:0.1.0`.
-
-- `basic-zh.typ` has been removed. Import `basic-note.typ` instead, or `large-note.typ` if you set `isLargeReport: true`, and drop that parameter.
-- `academic-paper.typ` has moved to [typst-ntulj](https://github.com/zhenhuang-tw/typst-ntulj). Add that repository as a submodule, run `git submodule update --init --recursive`, and import `typst-ntulj/ntulj.typ` instead. `project`, `ncite`, and `ncitef` take the same arguments as before.
-
-## Updating the submodule
-
-```powershell
-git submodule update --remote --merge bluemagpie
-git add bluemagpie
-git commit -m "chore(tpl): update bluemagpie submodule"
-```
+- Install bluemagpie and yuhina as local packages, and remove the submodule.
+- Replace `#import "…/basic-note.typ": *` and `#show: project.with(…)` with `#import "@local/bluemagpie:0.1.0": *` and `#show: basic-note.with(…)`. For `large-note.typ`, use `large-note.with(…)`.
+- `bib` accepts only bytes: change `bib: "ref.yml"` to `bib: read("ref.yml", encoding: none)`. A path would resolve against the package directory.
+- Replace any direct import of `common.typ` with `@local/yuhina:0.1.0`.
+- `academic-paper.typ` and the paper template have moved to [typst-ntulj](https://github.com/zhenhuang-tw/typst-ntulj).
