@@ -27,26 +27,30 @@
 
 ## 安裝
 
-Typst 會在 `%APPDATA%\typst\packages\local\<名稱>\<版本>` 尋找本機套件。clone 本 repo 與 yuhina 後，為兩者各建立一個指向 clone 的目錄連結（junction）；之後 clone 內容變動，不必重新複製。建立 junction 不需要系統管理員權限。
+Typst 會在 `%APPDATA%\typst\packages\local\<名稱>\<版本>` 尋找本機套件。clone 本 repo 後執行 `install.ps1`，會為本套件與 yuhina 各建立一個指向 clone 的目錄連結（junction）；之後 clone 內容變動，不必重新複製。建立 junction 不需要系統管理員權限。
 
 ```powershell
-git clone https://github.com/zhenhuang-tw/yuhina.git
 git clone https://github.com/zhenhuang-tw/bluemagpie.git
-
-foreach ($name in "yuhina", "bluemagpie") {
-  $pkg = "$env:APPDATA\typst\packages\local\$name\0.1.0"
-  New-Item -ItemType Directory -Force (Split-Path $pkg) | Out-Null
-  New-Item -ItemType Junction -Path $pkg -Target (Resolve-Path $name)
-}
+cd bluemagpie
+powershell -ExecutionPolicy Bypass -File .\install.ps1
 ```
 
-資料夾名稱中的 `0.1.0` 須與各 repo 的 `typst.toml` 中的 `version` 一致。未安裝時，編譯會出現 `package not found (searched for @local/bluemagpie:0.1.0)`；少了 yuhina 則是 `@local/yuhina:0.1.0`。
+腳本的行為：
+
+- 從各自的 `typst.toml` 讀取套件名稱與版本來決定資料夾，不會對不上。
+- 在本 repo 旁邊的 `..\yuhina` 尋找 yuhina 的 clone；找不到就 clone 到那裡（需要 git）。
+- 可重複執行：已正確連結的會略過；該路徑上已有真實資料夾時會中止，不會刪除；已有指向別處的 junction 時，加上 `-Force` 才會替換（只移除 junction，不動它所指向的資料夾）。
+- `-YuhinaPath` 指定 yuhina clone 的位置，`-PackageRoot` 指定本機套件目錄。
+
+`-ExecutionPolicy Bypass` 只對這一次執行有效。Windows 用戶端預設的執行原則不允許執行 `.ps1`；若你已調整過，可直接執行 `.\install.ps1`。使用 PowerShell 7 時，將 `powershell` 換成 `pwsh`。
+
+安裝後，文件即可 `#import "@local/bluemagpie:0.1.0": *`。未安裝時，編譯會出現 `package not found (searched for @local/bluemagpie:0.1.0)`；少了 yuhina 則是 `@local/yuhina:0.1.0`。
 
 ### 更新
 
 在兩個 clone 內各執行 `git pull`。junction 指向 clone 本身，所有文件下次編譯就會用到新版。
 
-若 `typst.toml` 的 `version` 提高（例如 0.2.0），再依上述方式建立新版本的 junction，並把文件中的 `@local/bluemagpie:0.1.0` 改為新版本。
+若 `typst.toml` 的 `version` 提高（例如 0.2.0），再執行一次 `install.ps1` 即會建立新版本的 junction，並把文件中的 `@local/bluemagpie:0.1.0` 改為新版本。
 
 ## 快速開始
 

@@ -13,7 +13,7 @@ It provides two show rules. Pick one and it applies every note style, with no ot
 
 Both share fonts, inline styles, footnotes, and heading numbering from the [yuhina](https://github.com/zhenhuang-tw/yuhina) package.
 
-> Neither bluemagpie nor yuhina is on Typst Universe yet, so both must be installed as local packages; see Installation in the Chinese README.
+> Neither bluemagpie nor yuhina is on Typst Universe yet, so both must be installed as local packages. `install.ps1` creates both junctions in one step; see Installation in the Chinese README.
 
 The template for journal papers (bilingual cover, abstracts, citrus citations, grouped bibliography) lives in [typst-ntulj](https://github.com/zhenhuang-tw/typst-ntulj), which is moving to yuhina as well, so both look the same.
 
