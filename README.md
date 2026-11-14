@@ -30,3 +30,7 @@ This package replaces the Git submodule setup of earlier versions (`typst-basic-
 - `bib` accepts only bytes: change `bib: "ref.yml"` to `bib: read("ref.yml", encoding: none)`. A path would resolve against the package directory.
 - Replace any direct import of `common.typ` with `@local/yuhina:0.1.0`.
 - `academic-paper.typ` and the paper template have moved to [typst-ntulj](https://github.com/zhenhuang-tw/typst-ntulj).
+
+## License
+
+[MIT](LICENSE)

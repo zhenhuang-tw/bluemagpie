@@ -219,3 +219,7 @@ A4，左右邊距 3cm、上下 2.5cm，頁碼置中；內文新細明體 12pt，
    | `…/academic-paper.typ`（論文模板）                                               | 改用 [typst-ntulj](https://github.com/zhenhuang-tw/typst-ntulj)，見其 README |
 
    更舊的 `basic-zh.typ` 比照前兩列處理；原本設有 `isLargeReport: true` 者改用 `large-note`，並刪除該參數。
+
+## 授權
+
+以 [MIT 授權條款](LICENSE)釋出。

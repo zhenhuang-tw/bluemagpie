@@ -6,3 +6,4 @@ compiler = "0.14.0"
 authors = ["Zhen Huang <https://github.com/zhenhuang-tw>"]
 description = "Traditional Chinese note templates for Typst, built on yuhina"
 repository = "https://github.com/zhenhuang-tw/bluemagpie"
+license = "MIT"
