@@ -7,14 +7,22 @@
 | `basic-note.typ` | 課堂筆記、讀書摘要、公文草稿、單篇文章       | 選用；Typst 原生，僅隨頁註 |
 | `large-note.typ` | 整學年筆記、長篇報告：在「壹、」之上分「章」 | 同上                       |
 
-兩者共用 `common.typ` 中的字體、行內樣式、註腳與標題編號。`common.typ` 不是入口檔，文件請勿直接匯入。
+兩者共用 [yuhina](https://github.com/zhenhuang-tw/yuhina) 套件中的字體、行內樣式、註腳與標題編號。yuhina 尚未上架 Typst Universe，須先安裝為本機套件，見〈環境需求〉。
 
-投稿用學術論文（中英封面、摘要、citrus 引註、分類參考文獻）的模板已獨立為 [typst-ntulj](https://github.com/zhenhuang-tw/typst-ntulj)。該模板以 submodule 引入本專案並沿用 `common.typ`，因此兩者外觀一致。
+投稿用學術論文（中英封面、摘要、citrus 引註、分類參考文獻）的模板已獨立為 [typst-ntulj](https://github.com/zhenhuang-tw/typst-ntulj)。該模板以 submodule 引入本專案，並將改為同樣匯入 yuhina，因此兩者外觀一致。
 
 ## 環境需求
 
 1. [Typst](https://github.com/typst/typst#installation) 0.14 以上。
-2. 建議安裝下列字型。缺少時 Typst 會以其他字型替補，但外觀會不同：
+2. [yuhina](https://github.com/zhenhuang-tw/yuhina)，須安裝為本機套件（`@local/yuhina:0.1.0`）。未安裝時，編譯會出現 `package not found (searched for @local/yuhina:0.1.0)`。clone yuhina 後，在其根目錄執行（細節見其 [README-zh.md](https://github.com/zhenhuang-tw/yuhina/blob/main/README-zh.md)）：
+
+   ```powershell
+   $pkg = "$env:APPDATA\typst\packages\local\yuhina\0.1.0"
+   New-Item -ItemType Directory -Force (Split-Path $pkg) | Out-Null
+   New-Item -ItemType Junction -Path $pkg -Target (Resolve-Path .)
+   ```
+
+3. 建議安裝下列字型。缺少時 Typst 會以其他字型替補，但外觀會不同：
    - Times New Roman、Arial
    - 微軟正黑體（`Microsoft JhengHei UI`）
    - 新細明體（`PMingLiU`）、標楷體（`DFKai-SB`）
@@ -37,7 +45,7 @@ git submodule add https://github.com/zhenhuang-tw/typst-basic-zh.git typst-basic
 
 ### 方式二：直接複製
 
-將 `common.typ` 與你要用的入口檔一起複製到專案中。入口檔都依賴 `common.typ`，`large-note.typ` 另依賴 `basic-note.typ`，缺一無法編譯。
+將你要用的入口檔複製到專案中。`large-note.typ` 另依賴 `basic-note.typ`，缺一無法編譯。兩種方式都須先依〈環境需求〉安裝 yuhina。
 
 ## 快速開始
 
@@ -184,37 +192,7 @@ A4，左右邊距 3cm、上下 2.5cm，頁碼置中；內文新細明體 12pt，
 
 ## 衍生模板：可個別套用的排版規則
 
-`common.typ` 的 `common-style` 由下列函式依序組成。撰寫衍生模板（例如論文模板或期刊預設格式）時，可以只挑需要的幾項、傳入不同參數，或換成自己的版本。每個函式都以 `#show: 函式` 或 `#show: 函式.with(...)` 套用，只影響其後的內容。
-
-| 函式             | 作用                     | 參數（預設值）                                               |
-| ---------------- | ------------------------ | ------------------------------------------------------------ |
-| `document-style` | PDF 標題與作者           | `title: ""`、`authors: ()`                                   |
-| `page-style`     | 紙張、邊距、頁尾置中頁碼 | `paper: "a4"`、`margin: (x: 3cm, y: 2.5cm)`                  |
-| `text-style`     | 字型、語言、CJK 粗體     | `font: font-song`、`size: 12pt`                              |
-| `par-style`      | 段落                     | `first-line-indent: 0em`、`leading: 1.1em`、`spacing: 1.6em` |
-| `quote-style`    | 區塊引用                 | `font: font-kai`                                             |
-| `list-style`     | 編號與項目清單           | 無                                                           |
-| `figure-style`   | 圖說                     | `font: font-kai`                                             |
-| `footnote-style` | 註腳                     | `font: font-song`、`label-font: font-hei`                    |
-| `heading-style`  | 標題編號與外觀           | `font: font-hei`、`large: false`                             |
-| `ref-style`      | 交互參照                 | `large: false`（須與 `heading-style` 一致）                  |
-
-例如，只換邊距並讓段落首行縮排：
-
-```typ
-#import "typst-basic-zh/common.typ": *
-
-#show: document-style.with(title: "論文標題")
-#show: page-style.with(margin: (x: 2.5cm, y: 2cm))
-#show: text-style
-#show: par-style.with(first-line-indent: 2em, leading: 1.2em)
-#show: quote-style
-#show: list-style
-#show: figure-style
-#show: footnote-style
-#show: heading-style
-#show: ref-style
-```
+撰寫衍生模板時若要只挑部分排版規則（頁面、段落、註腳、標題編號等），或傳入不同參數，請直接匯入 yuhina：`#import "@local/yuhina:0.1.0": *`。各函式的名稱、參數與範例見 [yuhina 的 README-zh.md](https://github.com/zhenhuang-tw/yuhina/blob/main/README-zh.md)。本專案的入口檔只是以 `common-style` 將這些規則全部套用。
 
 ## 從舊版遷移
 
