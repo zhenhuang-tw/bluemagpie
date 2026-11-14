@@ -182,6 +182,40 @@ bib: "ref.yml",
 
 A4，左右邊距 3cm、上下 2.5cm，頁碼置中；內文新細明體 12pt，段落不縮排，行距 1.1em；腳註文內標籤為黑體上標，頁底採懸掛縮排；圖說置於圖片上方。首頁為標題、作者，其下接目錄；文末不輸出參考文獻清單。
 
+## 衍生模板：可個別套用的排版規則
+
+`common.typ` 的 `common-style` 由下列函式依序組成。撰寫衍生模板（例如論文模板或期刊預設格式）時，可以只挑需要的幾項、傳入不同參數，或換成自己的版本。每個函式都以 `#show: 函式` 或 `#show: 函式.with(...)` 套用，只影響其後的內容。
+
+| 函式             | 作用                     | 參數（預設值）                                               |
+| ---------------- | ------------------------ | ------------------------------------------------------------ |
+| `document-style` | PDF 標題與作者           | `title: ""`、`authors: ()`                                   |
+| `page-style`     | 紙張、邊距、頁尾置中頁碼 | `paper: "a4"`、`margin: (x: 3cm, y: 2.5cm)`                  |
+| `text-style`     | 字型、語言、CJK 粗體     | `font: font-song`、`size: 12pt`                              |
+| `par-style`      | 段落                     | `first-line-indent: 0em`、`leading: 1.1em`、`spacing: 1.6em` |
+| `quote-style`    | 區塊引用                 | `font: font-kai`                                             |
+| `list-style`     | 編號與項目清單           | 無                                                           |
+| `figure-style`   | 圖說                     | `font: font-kai`                                             |
+| `footnote-style` | 註腳                     | `font: font-song`、`label-font: font-hei`                    |
+| `heading-style`  | 標題編號與外觀           | `font: font-hei`、`large: false`                             |
+| `ref-style`      | 交互參照                 | `large: false`（須與 `heading-style` 一致）                  |
+
+例如，只換邊距並讓段落首行縮排：
+
+```typ
+#import "typst-basic-zh/common.typ": *
+
+#show: document-style.with(title: "論文標題")
+#show: page-style.with(margin: (x: 2.5cm, y: 2cm))
+#show: text-style
+#show: par-style.with(first-line-indent: 2em, leading: 1.2em)
+#show: quote-style
+#show: list-style
+#show: figure-style
+#show: footnote-style
+#show: heading-style
+#show: ref-style
+```
+
 ## 從舊版遷移
 
 ### 原本匯入 `basic-zh.typ`
