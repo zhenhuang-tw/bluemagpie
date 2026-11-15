@@ -76,6 +76,22 @@ typst compile note.typ     # 產生 note.pdf
 typst watch note.typ       # 監看檔案，存檔即重新編譯
 ```
 
+缺字型時，Typst 會對每個找不到的字型顯示 `unknown font family` 警告（不影響輸出）。依作業系統加上 `--input`，即只保留該環境的字型而不產生這些警告：
+
+```powershell
+# Windows
+typst compile note.typ --input USE_WIN=1
+typst watch note.typ --input USE_WIN=1
+```
+
+```sh
+# Linux（須已安裝 Libertinus Sans、Noto Serif／Sans CJK TC 與 TW-MOE-Std-Kai）
+typst compile note.typ --input USE_LINUX=1
+typst watch note.typ --input USE_LINUX=1
+```
+
+細節與限制見 yuhina 的[編譯指令](https://github.com/zhenhuang-tw/yuhina#編譯指令)。
+
 `basic-note` 已套用全部排版規則，不必再寫其他 `#show`。以 `*` 匯入會一併取得兩個 show 規則、行內樣式函式與字型；也可以只匯入需要的名稱，例如 `#import "@local/bluemagpie:0.1.0": basic-note, hypo`。
 
 ### 大型筆記（`large-note`）
