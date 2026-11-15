@@ -198,33 +198,6 @@ A4，左右邊距 3cm、上下 2.5cm，頁碼置中；內文新細明體 12pt，
 
 要自行撰寫模板，或只挑部分排版規則（頁面、段落、註腳、標題編號等）、傳入不同參數，請直接匯入 yuhina：`#import "@local/yuhina:0.1.0": *`。各函式的名稱、參數與範例見 [yuhina 的 README-zh.md](https://github.com/zhenhuang-tw/yuhina/blob/main/README-zh.md)。`basic-note` 與 `large-note` 只是以 yuhina 的 `common-style` 將這些規則全部套用，再加上標題、目錄與參考文獻。
 
-## 從舊版遷移
-
-原本以 Git submodule 使用本專案（舊名 `typst-basic-zh`）的專案，請依序處理：
-
-1. 依〈安裝〉安裝本套件與 yuhina。
-2. 在專案根目錄移除 submodule。先用 `ls .git\modules` 確認其名稱；以舊版更名而來的，名稱可能仍是 `typst-basic-zh`。最後一行是清理，可省略：
-
-   ```powershell
-   git submodule deinit -f bluemagpie     # 舊路徑則為 typst-basic-zh
-   git rm -f bluemagpie
-   git commit -m "chore(tpl): replace bluemagpie submodule with local package"
-   Remove-Item -Recurse -Force .git\modules\<名稱>
-   ```
-
-3. 修改文件中的匯入與 show 規則：
-
-   | 原本                                                                             | 改為                                                                  |
-   | -------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
-   | `#import "…/basic-note.typ": *`<br>`#show: project.with(…)`                      | `#import "@local/bluemagpie:0.1.0": *`<br>`#show: basic-note.with(…)` |
-   | `#import "…/large-note.typ": *`<br>`#show: project.with(…)`                      | `#import "@local/bluemagpie:0.1.0": *`<br>`#show: large-note.with(…)` |
-   | `#rightNote[…]`                                                                  | `#right-note[…]`                                                      |
-   | `bib: "ref.yml"`                                                                 | `bib: read("ref.yml", encoding: none)`                                |
-   | 直接匯入 `…/common.typ`（例如舊版 flamegold）                                  | `#import "@local/yuhina:0.1.0": *`                                    |
-   | `…/academic-paper.typ`（論文模板）                                               | 改用 [flamegold](https://github.com/zhenhuang-tw/flamegold)，見其 README |
-
-   更舊的 `basic-zh.typ` 比照前兩列處理；原本設有 `isLargeReport: true` 者改用 `large-note`，並刪除該參數。
-
 ## License
 
 [MIT](LICENSE)
