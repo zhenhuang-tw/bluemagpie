@@ -16,12 +16,13 @@ Traditional Chinese note package for [Typst](https://typst.app/). The name `blue
 ## 環境需求
 
 1. [Typst](https://github.com/typst/typst#installation) 0.14 以上。
-2. 建議安裝下列字型。缺少時 Typst 會以其他字型替補，但外觀會不同：
+2. 建議安裝下列字型。缺少時 Typst 會依 yuhina 的[字型降級](https://github.com/zhenhuang-tw/yuhina#字型降級)清單改用其他字型，但外觀會不同：
    - Times New Roman、Arial
    - 微軟正黑體（`Microsoft JhengHei UI`）
    - 新細明體（`PMingLiU`）、標楷體（`DFKai-SB`）
    - [TaiwanPearl 台灣圓體](https://github.com/max32002/TaiwanPearl) 的 Light 版本（`#hypo` 使用）
    - [Zhuque Fangsong 朱雀仿宋](https://github.com/TrionesType/zhuque)（`#thought` 使用）
+   - [Libertinus Sans](https://github.com/alerque/libertinus)：非 Windows 環境黑體拉丁字母的降級字型；Libertinus Serif 由 Typst 內建
 
 首次編譯時，Typst 會自動下載 `@preview/cuti`。
 
