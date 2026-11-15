@@ -2,18 +2,16 @@
 
 Traditional Chinese note package for [Typst](https://typst.app/). The name `bluemagpie` comes from the Taiwan blue magpie (_Urocissa caerulea_), a species endemic to Taiwan.
 
-適用於 [Typst](https://typst.app/) 的繁體中文筆記套件。只要選擇其中一個 show 規則，就會套用全部的筆記樣式（版面、字型、註腳、標題編號、目錄等）：
+適用於 [Typst](https://typst.app/) 的繁體中文筆記套件，得名於臺灣藍鵲（Taiwan blue magpie）。
+
+只要選擇其中一個 show 規則，就會套用全部的筆記樣式（版面、字型、註腳、標題編號、目錄等）：
 
 | show 規則    | 用途                                         | 引註方式                   |
 | ------------ | -------------------------------------------- | -------------------------- |
 | `basic-note` | 課堂筆記、讀書摘要、公文草稿、單篇文章       | 選用；Typst 原生，僅隨頁註 |
 | `large-note` | 整學年筆記、長篇報告：在「壹、」之上分「章」 | 同上                       |
 
-兩者共用 [yuhina](https://github.com/zhenhuang-tw/yuhina) 套件中的字體、行內樣式、註腳與標題編號。本套件與 yuhina 都尚未上架 Typst Universe，須各自安裝為本機套件（local package），見〈安裝〉。
-
-投稿用學術論文（中英封面、摘要、citrus 引註、分類參考文獻）的模板已獨立為 [typst-ntulj](https://github.com/zhenhuang-tw/typst-ntulj)。該模板與本套件共用 yuhina（遷移中），因此兩者外觀一致。
-
-本套件的名稱 `bluemagpie` 得名於臺灣藍鵲（Taiwan blue magpie）。
+兩者共用 [yuhina](https://github.com/zhenhuang-tw/yuhina) 套件中的字體、行內樣式、註腳與標題編號。本套件與 yuhina 都尚未上架 Typst Universe，須各自安裝為本機套件（local package），見〈安裝〉。我們另有一姊妹作 [flamegold](https://github.com/zhenhuang-tw/flamegold)，專為法學院研究生撰寫課程報告使用；它也援引 yuhina 的排版設計，所以成品會長得和我們輸出的筆記很像。
 
 ## 環境需求
 
@@ -221,8 +219,8 @@ A4，左右邊距 3cm、上下 2.5cm，頁碼置中；內文新細明體 12pt，
    | `#import "…/large-note.typ": *`<br>`#show: project.with(…)`                      | `#import "@local/bluemagpie:0.1.0": *`<br>`#show: large-note.with(…)` |
    | `#rightNote[…]`                                                                  | `#right-note[…]`                                                      |
    | `bib: "ref.yml"`                                                                 | `bib: read("ref.yml", encoding: none)`                                |
-   | 直接匯入 `…/common.typ`（例如舊版 typst-ntulj）                                  | `#import "@local/yuhina:0.1.0": *`                                    |
-   | `…/academic-paper.typ`（論文模板）                                               | 改用 [typst-ntulj](https://github.com/zhenhuang-tw/typst-ntulj)，見其 README |
+   | 直接匯入 `…/common.typ`（例如舊版 flamegold）                                  | `#import "@local/yuhina:0.1.0": *`                                    |
+   | `…/academic-paper.typ`（論文模板）                                               | 改用 [flamegold](https://github.com/zhenhuang-tw/flamegold)，見其 README |
 
    更舊的 `basic-zh.typ` 比照前兩列處理；原本設有 `isLargeReport: true` 者改用 `large-note`，並刪除該參數。
 
