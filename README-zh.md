@@ -1,5 +1,7 @@
 # bluemagpie
 
+Traditional Chinese note package for [Typst](https://typst.app/). The name `bluemagpie` comes from the Taiwan blue magpie (_Urocissa caerulea_), a species endemic to Taiwan.
+
 適用於 [Typst](https://typst.app/) 的繁體中文筆記套件。只要選擇其中一個 show 規則，就會套用全部的筆記樣式（版面、字型、註腳、標題編號、目錄等）：
 
 | show 規則    | 用途                                         | 引註方式                   |
@@ -224,6 +226,6 @@ A4，左右邊距 3cm、上下 2.5cm，頁碼置中；內文新細明體 12pt，
 
    更舊的 `basic-zh.typ` 比照前兩列處理；原本設有 `isLargeReport: true` 者改用 `large-note`，並刪除該參數。
 
-## 授權
+## License
 
-以 [MIT 授權條款](LICENSE)釋出。
+[MIT](LICENSE)
